@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -6,6 +6,10 @@ def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config')
 
-    from models import db
+    from reportapp import home
+    from reportapp import commercial
+    from reportapp import acctmgt
+    from reportapp import vertical
+    from reportapp.models import db
 
     return app
