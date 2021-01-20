@@ -1,15 +1,18 @@
-from flask import Flask
+import os
+from flask import (
+    Flask, Blueprint, flash, g, redirect, render_template, request, session, url_for
+)
 from flask_sqlalchemy import SQLAlchemy
+from main.home import homepage
 
 
-def create_app():
+def create_app(homepage, test_config=None):
     app = Flask(__name__)
-    app.config.from_pyfile('config')
+    app.config.from_pyfile('config.py')
 
-    from reportapp import home
-    from reportapp import commercial
-    from reportapp import acctmgt
-    from reportapp import vertical
-    from reportapp.models import db
+    app.register_blueprint(homepage, url_prefix="")
 
     return app
+
+
+app = create_app(homepage)

@@ -1,4 +1,4 @@
-import reportapp import app
+from reportapp import app
 
 if __name__ == '__main__':
     app.run(debug=True)
