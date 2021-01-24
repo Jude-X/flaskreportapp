@@ -45,7 +45,7 @@ class SignUp(FlaskForm):
     password = PasswordField('Password', validators=[
                              DataRequired(), Regexp(pswdregexp, message=pswdmsg)])
     confirm_password = PasswordField(
-        'Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
+        'Confirm Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
     submit = SubmitField('Sign Up')
 
 
