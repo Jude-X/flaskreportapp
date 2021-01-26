@@ -21,6 +21,7 @@ class Appuser(db.Model):
     image_file = db.Column(db.String(20), nullable=False,
                            default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
+    admin = db.Column(db.Boolean, nullable=False, default=False)
 
     def __repr__(self):
         return f"AppUser('{self.id}', '{self.email}''{self.vertical}')"

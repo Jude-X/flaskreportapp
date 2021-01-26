@@ -1,26 +1,14 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, Regexp, ValidationError
+from reportapp.models import Verticaluser
 
 
-def domain_validator(self, field):
-    domain = field.data.split('a')[1]
-    if domain != 'flutterwavego.com':
-        raise ValidationError('Invalid Email Address')
+emailregexp = "^[a-z]+@flutterwavego\.com$"
 
+emailmsg = "Please Enter A Valid Email Address"
 
-pswdregexp = '''
-    (                   # Start of group
-        (?=.*\d)  # must contain at least one digit
-        (?=.*[A-Z])  # must contain at least one uppercase character
-        (?=.*[a-z])  # must contain at least one lowercase character
-        (?=.*\W)  # must contain at least one special symbol
-        \w
-        .  # match anything with previous condition checking
-        {6, 18}  # length is  characters
-        \w
-    )                   # End of group
-    '''
+pswdregexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[A-Za-z\d\W]{8,}$"
 
 pswdmsg = '''
         Password must contain at least:
@@ -29,23 +17,19 @@ pswdmsg = '''
         1 lowercase letter
         1 number
         1 special character
-        8-20 characters
+        8 or more characters
             '''
-
-
-def email_validator(c):
-    pass
 
 
 class SignUp(FlaskForm):
     email = StringField('Email', validators=[
-                        DataRequired(), Email(), domain_validator, email_validator])
-
-    vertical = SelectField('Vertical', choices=[])  # signupteamname)
+                        DataRequired(message='Please Fill This Field'), Email(), Regexp(emailregexp, message=emailmsg)])
+    vertical = SelectField('Vertical', coerce=str, choices=[], validators=[
+        DataRequired()])
     password = PasswordField('Password', validators=[
-                             DataRequired(), Regexp(pswdregexp, message=pswdmsg)])
+        DataRequired(), Regexp(pswdregexp, message=pswdmsg)])
     confirm_password = PasswordField(
-        'Confirm Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
+        'Confirm Password', validators=[DataRequired(), EqualTo('password', message='Passwords Must Match')])
     submit = SubmitField('Sign Up')
 
 

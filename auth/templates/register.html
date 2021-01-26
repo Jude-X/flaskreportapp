@@ -3,7 +3,7 @@
 {% block content %}
     <div class="content-section">
         <h1>
-            SignUp Page
+            
         </h1>
         <form method="POST" action="">
             {{ form.hidden_tag() }}
@@ -13,19 +13,55 @@
                 </legend>
                 <div class="form-group">
                     {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
                     {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     {{ form.vertical.label(class="form-control-label") }}
+                    {% if form.vertical.errors %}
+                        {{ form.vertical(class="form-control form-control-lg is-invalid")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.vertical.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
                     {{ form.vertical(class="form-control form-control-lg") }}
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     {{ form.password.label(class="form-control-label") }}
+                    {% if form.password.errors %}
+                        {{ form.password(class="form-control form-control-lg is-invalid")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
                     {{ form.password(class="form-control form-control-lg") }}
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     {{ form.confirm_password.label(class="form-control-label") }}
+                    {% if form.confirm_password.errors %}
+                        {{ form.confirm_password(class="form-control form-control-lg is-invalid")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.confirm_password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
                     {{ form.confirm_password(class="form-control form-control-lg") }}
+                    {% endif %}
                 </div>
             </fieldset>
             <div class="form-group">
@@ -38,4 +74,22 @@
             Already Have An Account? <a class="ml-2" href= "{{ url_for('authpage.signin') }}">Sign In</a>
         </small>
     </div>
+    <script>
+        let emailSelect = document.getElementById('email')
+        let vertical_select = document.getElementById('vertical')
+        emailSelect.onchange = function(){
+            email = emailSelect.value;
+            
+            fetch('/users/' + email).then(function(response){
+                response.json().then(function(data){
+                    let optionHTML = '';
+                    
+                    optionHTML += '<option value="'+ data.id +'">'+data.vertical+'</option>';
+
+                    vertical_select.innerHTML = optionHTML;
+                })
+            })
+        }
+        
+    </script>
 {% endblock %}
